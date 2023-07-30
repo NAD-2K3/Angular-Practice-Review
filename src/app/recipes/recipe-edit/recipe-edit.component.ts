@@ -26,14 +26,14 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/recipes'])
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
-    let recipeIngredients: FormArray<FormGroup> = new FormArray<FormGroup>([])
+    let recipeIngredients = new FormArray([])
     
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
@@ -87,4 +87,9 @@ export class RecipeEditComponent implements OnInit {
       this.recipeService.addRecipe(this.recipeForm.value)
     }
   }
+  
+  onDeleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index)
+  }
+
 }
